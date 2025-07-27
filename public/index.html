@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="ar">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>طلب رمز الاقتران</title>
+<style>
+    body { font-family: Arial; background:#f9f9f9; text-align:center; margin-top:50px; }
+    h1 { color:#333; }
+    input { padding:10px; width:250px; font-size:18px; border-radius:5px; border:1px solid #ccc; }
+    button { padding:10px 20px; font-size:18px; margin-top:10px; border:none; border-radius:5px; background:#28a745; color:#fff; cursor:pointer; }
+    button:hover { background:#218838; }
+    #result { margin-top:20px; font-size:20px; color:#333; font-weight:bold; }
+</style>
+</head>
+<body>
+    <h1>أدخل رقم هاتفك</h1>
+    <input type="text" id="number" placeholder="+966xxxxxxxxx"><br><br>
+    <button onclick="getCode()">توليد رمز الاقتران</button>
+    <div id="result"></div>
+
+<script>
+async function getCode() {
+    const number = document.getElementById('number').value;
+    if(!number) {
+        document.getElementById('result').innerText = '❌ أدخل رقم الهاتف';
+        return;
+    }
+    document.getElementById('result').innerText = '⏳ جاري توليد الرمز...';
+    const res = await fetch('/pair', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ number })
+    });
+    const data = await res.json();
+    if(data.code) {
+        document.getElementById('result').innerText = '✅ رمز الاقتران: ' + data.code;
+    } else {
+        document.getElementById('result').innerText = '❌ حدث خطأ: ' + (data.error || 'حاول لاحقاً');
+    }
+}
+</script>
+</body>
+</html>
