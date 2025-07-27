@@ -1,18 +1,70 @@
 <!DOCTYPE html>
-<html lang="ar" dir="rtl">
+<html lang="ar">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>توليد رمز اقتران واتساب</title>
-  <link rel="stylesheet" href="style.css">
+    <meta charset="UTF-8">
+    <title>Pairing Code - Gizzy Bot</title>
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            background: linear-gradient(135deg, #1e1e2f, #3b3b58);
+            color: white;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+        .container {
+            text-align: center;
+            background: rgba(0,0,0,0.7);
+            padding: 30px;
+            border-radius: 12px;
+            width: 400px;
+        }
+        input, button {
+            padding: 10px;
+            width: 80%;
+            margin: 10px 0;
+            border-radius: 6px;
+            border: none;
+        }
+        button {
+            background: #4CAF50;
+            color: white;
+            font-size: 16px;
+            cursor: pointer;
+        }
+        .code {
+            font-size: 24px;
+            font-weight: bold;
+            margin-top: 20px;
+            color: #FFD700;
+        }
+    </style>
 </head>
 <body>
-  <div class="container">
-    <h1>توليد رمز اقتران واتساب</h1>
-    <input type="text" id="number" placeholder="أدخل رقم الهاتف مع رمز الدولة">
-    <button onclick="generateCode()">توليد الرمز</button>
-    <div id="result"></div>
-  </div>
-  <script src="script.js"></script>
+    <div class="container">
+        <h1>Gizzy Bot - رمز الاقتران</h1>
+        <input type="text" id="number" placeholder="أدخل رقم الهاتف">
+        <button onclick="getCode()">توليد الرمز</button>
+        <div class="code" id="code"></div>
+    </div>
+
+    <script>
+        async function getCode() {
+            const number = document.getElementById("number").value;
+            if (!number) {
+                alert("يرجى إدخال رقم الهاتف");
+                return;
+            }
+
+            const response = await fetch("/pair", {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({ number })
+            });
+            const data = await response.json();
+            document.getElementById("code").textContent = data.code || "خطأ!";
+        }
+    </script>
 </body>
 </html>
