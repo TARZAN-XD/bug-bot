@@ -1,7 +1,7 @@
 //========HELO FRIEND========//
 global.prefix = [".", "!", ".", ",", "🐤", "🗿"]; 
 global.publik = true
-global.owner = ["6283169397124"] 
+global.owner = ["966590117904"] 
 global.namabot = 'Justin Official'
 //======================
 global.mess = { 
