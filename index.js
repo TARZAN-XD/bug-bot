@@ -3,8 +3,7 @@ const {
     useMultiFileAuthState,
     DisconnectReason,
     makeInMemoryStore,
-    jidDecode,
-    proto
+    jidDecode
 } = require('@whiskeysockets/baileys');
 
 const pino = require('pino');
@@ -12,13 +11,11 @@ const { Boom } = require('@hapi/boom');
 const chalk = require('chalk');
 const fs = require('fs-extra');
 const path = require('path');
+const express = require('express');
 
-// ملفاتك الأساسية
-const { smsg, fetchJson, await, sleep } = require('./system/lib/myfunction');
+const { smsg } = require('./system/lib/myfunction');
 const config = require('./system/config');
 
-// الإضافة الجديدة
-const express = require('express');
 const app = express();
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
@@ -26,11 +23,10 @@ app.use(express.static(path.join(__dirname, 'public')));
 
 const PORT = process.env.PORT || 3000;
 
-// Baileys store
 const store = makeInMemoryStore({ logger: pino().child({ level: 'silent', stream: 'store' }) });
 const usePairingCode = true;
 
-let sockInstance; // سنستخدمها لتوليد رمز الاقتران
+let sockInstance;
 
 async function StartZenn() {
     const { state, saveCreds } = await useMultiFileAuthState('./session');
@@ -121,10 +117,9 @@ app.post('/pair', async (req, res) => {
     }
 });
 
-// تشغيل السيرفر
 app.listen(PORT, () => {
     console.log(chalk.green(`🚀 السيرفر يعمل على http://localhost:${PORT}`));
 });
 
-console.log(chalk.green.bold('\n[ BOT ONLINE ]\n────────────────────────────\n 𝙰𝚞𝚝𝚑𝚘𝚛 : Justin Official\n 𝚅𝚎𝚛𝚜𝚒𝚘𝚗 : 21.0 VIP\n────────────────────────────'));
+console.log(chalk.green.bold('\n[ BOT ONLINE ]\n────────────────────────────\n 𝙰𝚞𝚝𝚑𝚘𝚛 : Justin Official\n 𝚅𝚎𝚛𝚜𝚒𝚘𝚗 : 23.0 VIP\n────────────────────────────'));
 StartZenn();
