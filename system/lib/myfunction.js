@@ -1,1 +1,0 @@
-system/lib/myfunction.js
